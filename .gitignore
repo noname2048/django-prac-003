@@ -29,3 +29,6 @@ __pycache__/
 
 # .ipynb_checkpoints directory at everywhere
 .ipynb_checkpoints
+
+# raw requirements
+/requirements.txt
