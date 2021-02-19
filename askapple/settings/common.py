@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     # 3rd
     "rest_framework",
     # local
+    "instagram",
 ]
 
 MIDDLEWARE = [

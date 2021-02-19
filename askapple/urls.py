@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path("api-auth/", include("rest_framework.urls")),
     path("admin/", admin.site.urls),
+    # 단순 auth의 loginview 활용, 로그인 지원
+    path("api-auth/", include("rest_framework.urls")),
+    path("", include("instagram.urls")),
 ]

@@ -1,8 +1,7 @@
 
 ### Django ###
 # 데이터베이스 항목 한개
-# 최상위 디렉토리에 존재한다
-/db.sqlite3
+/askapple/db.sqlite3
 
 # django secrets
 # 어디에 있는지 모르지만 settings 폴더안에 있는 json만 처리
