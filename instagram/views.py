@@ -30,6 +30,10 @@ def public_post_list(request):
     return Response(serializer.data)
 
 
+from rest_framework import viewsets
+from rest_framework.decorators import action
+
+
 class PostViewSet(ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
@@ -40,10 +44,43 @@ class PostViewSet(ModelViewSet):
     #     )
     #     return super().dispatch(request, *args, **kwargs)
 
+    # authentication_classes = []
 
-def post_list(request):
-    pass
+    def perform_create(self, serializer):
+        ip = self.request.META["REMOTE_ADDR"]
+        author = self.request.user  # User or Annoymous
+        serializer.save(
+            ip=ip,
+            author=author,
+        )
+
+    @action(detail=False, methods=["GET"])
+    def public(self, request):
+        qs = self.get_queryset().filter(is_public=True)
+        serializer = self.get_serializer(qs, many=True)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=["PATCH"])
+    def set_public(self, request, pk):
+        instance = self.get_object()
+        instance.is_public = True
+        instance.save(update_fields=["is_public"])
+        serializer = self.get_serializer(instance, many=False)
+        return Response(serializer.data)
 
 
-def post_detail(request, pk):
-    pass
+from rest_framework import renderers
+
+
+class PostDetailAPIView(generics.RetrieveAPIView):
+    queryset = Post.objects.all()
+    renderer_classes = [renderers.TemplateHTMLRenderer]
+    template_name = "instagram/post_detail.html"
+
+    def get(self, request, *args, **kwargs):
+        post = self.get_object()
+        return Response(
+            {
+                "post": PostSerializer(post).data,
+            }
+        )

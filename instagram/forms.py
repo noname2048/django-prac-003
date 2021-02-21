@@ -5,4 +5,7 @@ from . import models
 class PostForm:
     class Meta:
         model = models.Post
-        fields = "__all__"
+        fields = [
+            "message",
+            "is_public",
+        ]
