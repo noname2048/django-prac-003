@@ -21,4 +21,5 @@ urlpatterns = [
     # 단순 auth의 loginview 활용, 로그인 지원
     path("api-auth/", include("rest_framework.urls")),
     path("", include("instagram.urls")),
+    path("accounts/", include("accounts.urls")),
 ]

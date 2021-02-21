@@ -32,11 +32,21 @@ def public_post_list(request):
 
 from rest_framework import viewsets
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
+from . import permissions
+from rest_framework.filters import SearchFilter, OrderingFilter
 
 
 class PostViewSet(ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    # permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthorOrReadOnly]
+
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ["message"]  # ?search=
+    ordering_fields = ["pk", "created_at"]  # ?ordering= 정렬을 허용할 필드의 화이트 스트
+    ordering = ["pk"]  # 디폴트
 
     # def dispatch(self, request, *args, **kwargs):
     #     logger.info(

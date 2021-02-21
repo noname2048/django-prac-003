@@ -49,8 +49,10 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # 3rd
     "rest_framework",
+    "rest_framework.authtoken",
     # local
     "instagram",
+    "accounts",
 ]
 
 MIDDLEWARE = [
@@ -143,3 +145,20 @@ MEDIA_ROOT = BASE_DIR / "media/"
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
+    "PAGE_SIZE": 3,
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "DEFAULT_THROTTLE_CLASSES": [
+        "rest_framework.throttling.UserRateThrottle",
+    ],
+    "DEFAULT_THROTTLE_RATES": {
+        "anon": None,
+        "user": "3/day",
+    },
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+    ],
+}
